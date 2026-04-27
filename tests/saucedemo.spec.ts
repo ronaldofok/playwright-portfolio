@@ -14,14 +14,13 @@ test.beforeEach(async ({ page }) => {
 
     const inventoryPage = new InventoryPage(page);
     await inventoryPage.verifyHeader();
-    
+
 });
 
 
 test('checkout completo de un producto con verificacion de precios', async ({ page }) => {
 
-    await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
-    // Products
+    await expect(page).toHaveURL('/inventory.html');    // Products
     const inventoryPage = new InventoryPage(page);
     await inventoryPage.verifyBackpack();
     await inventoryPage.addBackpackAndGoToCart();
@@ -29,7 +28,7 @@ test('checkout completo de un producto con verificacion de precios', async ({ pa
 });
 
 test('verificacion de la correcta funcionalidad de cart', async ({ page }) => {
-    await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
+    await expect(page).toHaveURL('/inventory.html');
 
     // Products
     const inventoryPage = new InventoryPage(page);
@@ -44,7 +43,7 @@ test('verificacion de la correcta funcionalidad de cart', async ({ page }) => {
 });
 
 test('verificacion shipping data', async ({ page }) => {
-    await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
+    await expect(page).toHaveURL('/inventory.html');
 
     // Products
     const inventoryPage = new InventoryPage(page);
@@ -67,7 +66,7 @@ test('verificacion shipping data', async ({ page }) => {
 
 test('verificacion checkout overview', async ({ page }) => {
 
-    await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
+    await expect(page).toHaveURL('/inventory.html');
 
     // Products
     const inventoryPage = new InventoryPage(page);
@@ -99,7 +98,7 @@ test('verificacion checkout overview', async ({ page }) => {
 
 test('verificacion oreder placed', async ({ page }) => {
 
-    await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
+    await expect(page).toHaveURL('/inventory.html');
 
     // Products
     const inventoryPage = new InventoryPage(page);
