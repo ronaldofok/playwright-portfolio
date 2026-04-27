@@ -24,7 +24,7 @@ export class LoginPage {
         await this.passwordInput.fill(password);
         await this.loginButton.waitFor({ state: 'visible' });
         await this.loginButton.click();
-        await expect(this.page).toHaveURL('https://www.saucedemo.com/inventory.html');
+        await expect(this.page).toHaveURL('/inventory.html');
     }
 
     async loginError(username: string, password: string) {
