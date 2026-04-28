@@ -106,7 +106,7 @@ test('verificacion checkout overview', async ({ page }) => {
 });
 
 
-test('verificacion oreder placed', async ({ page }) => {
+test('verificacion order placed', async ({ page }) => {
 
     await expect(page).toHaveURL('/inventory.html');
 
