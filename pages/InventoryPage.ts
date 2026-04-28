@@ -31,7 +31,6 @@ export class InventoryPage {
         await expect(this.selector).toBeVisible();
         await this.selector.selectOption('hilo');
         await expect(this.firstProductTitle).toContainText('Sauce Labs Fleece Jacket');
-        await expect(this.firstProductTitle).toContainText('Sauce Labs Fleece Jacket');
         await expect(this.firstProductPrice).toContainText('$49.99');
     }
 
