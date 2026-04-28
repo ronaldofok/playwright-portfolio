@@ -17,10 +17,20 @@ test.beforeEach(async ({ page }) => {
 
 });
 
+test('abrir nueva tab', async ({ page }) => {
+    const inventoryPage = new InventoryPage(page);
+    await inventoryPage.openFirstProductNewTab();
+});
+
+test('verificacion primer producto es el mas caro después de ordenar', async ({ page }) => {
+    await expect(page).toHaveURL('/inventory.html');    
+    const inventoryPage = new InventoryPage(page);
+    await inventoryPage.verifyProductOrder();
+});
 
 test('checkout completo de un producto con verificacion de precios', async ({ page }) => {
 
-    await expect(page).toHaveURL('/inventory.html');    // Products
+    await expect(page).toHaveURL('/inventory.html');    
     const inventoryPage = new InventoryPage(page);
     await inventoryPage.verifyBackpack();
     await inventoryPage.addBackpackAndGoToCart();
