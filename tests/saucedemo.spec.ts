@@ -6,132 +6,133 @@ import { ShippingData } from '../pages/ShippingData';
 import { CheckoutOverview } from '../pages/CheckoutOverview';
 import { OrderPlaced } from '../pages/OrderPlaced';
 
+test.describe('Flujo de compra', () => {
+    test.beforeEach(async ({ page }) => {
+        const loginPage = new LoginPage(page);
+        await loginPage.goto();
+        await loginPage.login('standard_user', 'secret_sauce');
 
-test.beforeEach(async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.goto();
-    await loginPage.login('standard_user', 'secret_sauce');
+        const inventoryPage = new InventoryPage(page);
+        await inventoryPage.verifyHeader();
 
-    const inventoryPage = new InventoryPage(page);
-    await inventoryPage.verifyHeader();
+    });
 
-});
+    test('abrir nueva tab', async ({ page }) => {
+        const inventoryPage = new InventoryPage(page);
+        await inventoryPage.openFirstProductNewTab();
+    });
 
-test('abrir nueva tab', async ({ page }) => {
-    const inventoryPage = new InventoryPage(page);
-    await inventoryPage.openFirstProductNewTab();
-});
+    test('verificacion primer producto es el mas caro después de ordenar', async ({ page }) => {
+        await expect(page).toHaveURL('/inventory.html');
+        const inventoryPage = new InventoryPage(page);
+        await inventoryPage.verifyProductOrder();
+    });
 
-test('verificacion primer producto es el mas caro después de ordenar', async ({ page }) => {
-    await expect(page).toHaveURL('/inventory.html');    
-    const inventoryPage = new InventoryPage(page);
-    await inventoryPage.verifyProductOrder();
-});
+    test('checkout completo de un producto con verificacion de precios', async ({ page }) => {
 
-test('checkout completo de un producto con verificacion de precios', async ({ page }) => {
+        await expect(page).toHaveURL('/inventory.html');
 
-    await expect(page).toHaveURL('/inventory.html');    
-    const inventoryPage = new InventoryPage(page);
-    await inventoryPage.verifyBackpack();
-    await inventoryPage.addBackpackAndGoToCart();
+        // Products
+        const inventoryPage = new InventoryPage(page);
+        await inventoryPage.verifyBackpack();
+        await inventoryPage.addBackpackAndGoToCart();
 
-});
+        // Cart
+        const cartPage = new CartPage(page);
+        await cartPage.verifyPage();
+        await cartPage.verifyProduct();
 
-test('verificacion de la correcta funcionalidad de cart', async ({ page }) => {
-    await expect(page).toHaveURL('/inventory.html');
+    });
 
-    // Products
-    const inventoryPage = new InventoryPage(page);
-    await inventoryPage.verifyBackpack();
-    await inventoryPage.addBackpackAndGoToCart();
+    test('verificacion shipping data', async ({ page }) => {
+        await expect(page).toHaveURL('/inventory.html');
 
-    // Cart
-    const cartPage = new CartPage(page);
-    await cartPage.verifyPage();
-    await cartPage.verifyProduct();
+        // Products
+        const inventoryPage = new InventoryPage(page);
+        await inventoryPage.verifyBackpack();
+        await inventoryPage.addBackpackAndGoToCart();
 
-});
-
-test('verificacion shipping data', async ({ page }) => {
-    await expect(page).toHaveURL('/inventory.html');
-
-    // Products
-    const inventoryPage = new InventoryPage(page);
-    await inventoryPage.verifyBackpack();
-    await inventoryPage.addBackpackAndGoToCart();
-
-    // Cart
-    const cartPage = new CartPage(page);
-    await cartPage.verifyPage();
-    await cartPage.verifyProduct();
+        // Cart
+        const cartPage = new CartPage(page);
+        await cartPage.verifyPage();
+        await cartPage.verifyProduct();
 
 
-    //Fill shipping data
+        //Fill shipping data
 
-    const shippingData = new ShippingData(page);
-    await shippingData.fillShippingData();
+        const shippingData = new ShippingData(page);
+        await shippingData.fillShippingData();
 
-});
-
-
-test('verificacion checkout overview', async ({ page }) => {
-
-    await expect(page).toHaveURL('/inventory.html');
-
-    // Products
-    const inventoryPage = new InventoryPage(page);
-    await inventoryPage.verifyBackpack();
-    await inventoryPage.addBackpackAndGoToCart();
-
-    // Cart
-    const cartPage = new CartPage(page);
-    await cartPage.verifyPage();
-    await cartPage.verifyProduct();
+    });
 
 
-    //Fill shipping data
+    test('verificacion checkout overview', async ({ page }) => {
 
-    const shippingData = new ShippingData(page);
-    await shippingData.fillShippingData();
+        await expect(page).toHaveURL('/inventory.html');
 
+        // Products
+        const inventoryPage = new InventoryPage(page);
+        await inventoryPage.verifyBackpack();
+        await inventoryPage.addBackpackAndGoToCart();
 
-    const checkoutOverviewCheck = new CheckoutOverview(page);
-    await checkoutOverviewCheck.checkoutOverviewCheck();
-
-    // Order placed
-    await expect(page.locator('[data-test="complete-header"]')).toContainText('Thank you for your order!');
-    await expect(page.locator('[data-test="complete-text"]')).toBeVisible();
-    await page.locator('[data-test="back-to-products"]').click();
-    await expect(page.locator('[data-test="title"]')).toContainText('Products');
-});
+        // Cart
+        const cartPage = new CartPage(page);
+        await cartPage.verifyPage();
+        await cartPage.verifyProduct();
 
 
-test('verificacion order placed', async ({ page }) => {
+        //Fill shipping data
 
-    await expect(page).toHaveURL('/inventory.html');
-
-    // Products
-    const inventoryPage = new InventoryPage(page);
-    await inventoryPage.verifyBackpack();
-    await inventoryPage.addBackpackAndGoToCart();
-
-    // Cart
-    const cartPage = new CartPage(page);
-    await cartPage.verifyPage();
-    await cartPage.verifyProduct();
+        const shippingData = new ShippingData(page);
+        await shippingData.fillShippingData();
 
 
-    //Fill shipping data
+        const checkoutOverviewCheck = new CheckoutOverview(page);
+        await checkoutOverviewCheck.checkoutOverviewCheck();
 
-    const shippingData = new ShippingData(page);
-    await shippingData.fillShippingData();
+        // Order placed
+        await expect(page.locator('[data-test="complete-header"]')).toContainText('Thank you for your order!');
+        await expect(page.locator('[data-test="complete-text"]')).toBeVisible();
+        await page.locator('[data-test="back-to-products"]').click();
+        await expect(page.locator('[data-test="title"]')).toContainText('Products');
+    });
 
 
-    const checkoutOverviewCheck = new CheckoutOverview(page);
-    await checkoutOverviewCheck.checkoutOverviewCheck();
+    test('verificacion order placed', async ({ page }) => {
+
+        await expect(page).toHaveURL('/inventory.html');
+
+        // Products
+        const inventoryPage = new InventoryPage(page);
+        await inventoryPage.verifyBackpack();
+        await inventoryPage.addBackpackAndGoToCart();
+
+        // Cart
+        const cartPage = new CartPage(page);
+        await cartPage.verifyPage();
+        await cartPage.verifyProduct();
 
 
-    const orderPlaced = new OrderPlaced(page);
-    await orderPlaced.orderPlaced();
+        //Fill shipping data
 
+        const shippingData = new ShippingData(page);
+        await shippingData.fillShippingData();
+
+
+        const checkoutOverviewCheck = new CheckoutOverview(page);
+        await checkoutOverviewCheck.checkoutOverviewCheck();
+
+
+        const orderPlaced = new OrderPlaced(page);
+        await orderPlaced.orderPlaced();
+
+    });
+
+
+    test('usuario bloqueado no puede iniciar sesión', async ({ page }) => {
+        const loginPage = new LoginPage(page);
+        await loginPage.goto();
+        await loginPage.loginError('locked_out_user', 'secret_sauce');
+        await loginPage.checkError('Epic sadface: Sorry, this user has been locked out.');
+    });
 });

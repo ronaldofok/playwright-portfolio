@@ -36,15 +36,8 @@ export class LoginPage {
 
 
 
-    async checkErrorBlockedUsername() {
-        await expect(this.error).toContainText('Epic sadface: Sorry, this user has been locked out.');
+    async checkError(expectedMessage: string) {
+        await expect(this.error).toContainText(expectedMessage);
     }
 
-    async checkErrorUsernameOrPassword() {
-        await expect(this.error).toContainText('Epic sadface: Username and password do not match any user in this service');
-    }
-
-    async checkErrorEmpty() {
-        await expect(this.error).toContainText('Epic sadface: Username is required');
-    }
 }

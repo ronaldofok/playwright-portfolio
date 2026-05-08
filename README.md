@@ -7,16 +7,23 @@ Framework de testing E2E con Playwright y TypeScript para [Sauce Demo](https://w
 ## Tests incluidos
 
 **Login (login.spec.ts)**
-- Usuario bloqueado
-- Contraseña incorrecta
-- Campos vacios
+- Data-driven con JSON: usuario bloqueado, contraseña incorrecta, campos vacíos
 
 **Flujo de compra (saucedemo.spec.ts)**
-- Verificación de inventario
+- Ordenación por precio (dropdown)
+- Apertura de producto en nueva tab
 - Carrito de compra
 - Datos de envío
 - Resumen de checkout
 - Orden completada
+
+## Características técnicas
+- Page Object Model (POM)
+- Data-driven testing con JSON + forEach
+- Tests organizados en suites con test.describe
+- actionTimeout configurado (10s)
+- Screenshot y video grabado en caso de fallo
+- CI/CD con GitHub Actions en cada push
 
 ## Tecnologias
 - [Playwright](https://playwright.dev/) v1.x

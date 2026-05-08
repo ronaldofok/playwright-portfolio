@@ -1,33 +1,14 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
+import users from './data/users.json';
 
-test('login con usuario bloqueado', async ({ page }) => {
-
-    const loginPage = new LoginPage(page);
-
-    await loginPage.goto();
-    await loginPage.loginError('locked_out_user', 'secret_sauce');
-    await loginPage.checkErrorBlockedUsername();
-
-
+test.describe('Login Tests', () => {
+    users.forEach(({ name, expected, password }) => {
+    test(`testing with ${name}`, async ({ page }) => {
+        const loginPage = new LoginPage(page);
+        await loginPage.goto();
+        await loginPage.loginError(name, password);
+        await loginPage.checkError(expected);
+    });
 });
-
-test('login contraseña incorrecta', async ({ page }) => {
-
-   const loginPage = new LoginPage(page);
-
-    await loginPage.goto();
-    await loginPage.loginError('standard_user ', 'wrong_password');
-    await loginPage.checkErrorUsernameOrPassword();
-
-
 });
-
-test('login campos vacios', async ({ page }) => {
-    const loginPage = new LoginPage(page);
-
-   await loginPage.goto();
-    await loginPage.loginError('', ' ');
-    await loginPage.checkErrorEmpty();
-});
-
