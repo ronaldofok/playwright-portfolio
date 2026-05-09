@@ -8,13 +8,9 @@ import { OrderPlaced } from '../pages/OrderPlaced';
 
 test.describe('Flujo de compra', () => {
     test.beforeEach(async ({ page }) => {
-        const loginPage = new LoginPage(page);
-        await loginPage.goto();
-        await loginPage.login('standard_user', 'secret_sauce');
-
-        const inventoryPage = new InventoryPage(page);
-        await inventoryPage.verifyHeader();
-
+    await page.goto('/inventory.html');
+    const inventoryPage = new InventoryPage(page);
+    await inventoryPage.verifyHeader();
     });
 
     test('abrir nueva tab', async ({ page }) => {
