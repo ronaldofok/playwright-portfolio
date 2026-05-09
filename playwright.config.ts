@@ -13,7 +13,7 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig({
   testDir: './tests',
-  /* Run tests in files in parallel */
+  globalSetup: './tests/global-setup.ts',
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
@@ -32,6 +32,7 @@ export default defineConfig({
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     baseURL: 'https://www.saucedemo.com',
+    storageState: 'tests/data/auth.json',
     actionTimeout: 10_000,
     video: 'retain-on-failure',
   },

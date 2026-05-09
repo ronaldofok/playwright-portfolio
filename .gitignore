@@ -6,6 +6,8 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+/tests/data/auth.json
+.env
 HOY_Sesion1_Playwright.md
 HOY_Sesion2_Playwright.md
 HOY_Sesion3_Playwright.md
